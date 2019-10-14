@@ -1,0 +1,150 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(150, 150, 150);
+  font-family: -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", Arial,
+    sans-serif;
+  line-height: 1.5rem;
+}
+
+p,
+ul,
+pre {
+  margin-top: 0;
+}
+
+ul {
+  padding-left: 1.5rem;
+}
+
+h1,
+h2,
+h3 {
+  margin-top: 0px;
+  font-weight: 600;
+}
+
+h1 {
+  margin-top: 5vh;
+  text-align: center;
+  font-size: 2rem;
+}
+
+h2 {
+  margin-bottom: 1.5em;
+}
+
+svg {
+  width: 100%;
+  height: auto;
+}
+
+.section {
+  height: 100%;
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+.slide {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide.inactive {
+  display: none;
+}
+
+#canvas {
+  box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.3);
+  background-color: #f8f8f8;
+  position: relative;
+  display: flex;
+}
+
+#canvas-content {
+  width: 100%;
+  height: 100%;
+}
+
+#canvas-content .note {
+  display: none;
+}
+
+#canvas-content img {
+  margin: 0px auto;
+  display: block;
+}
+
+@media (min-aspect-ratio: 8/5) {
+  html {
+    font-size: 3.5vh;
+  }
+
+  /* wide screen */
+  #canvas {
+    width: calc(100vh / 5 * 8);
+    height: 100vh;
+    padding: 10vh;
+    padding-top: 5vh;
+  }
+}
+
+@media (max-aspect-ratio: 8/5) {
+  html {
+    font-size: calc(3.5vw * 5 / 8);
+  }
+
+  /* narrow screen */
+  #canvas {
+    width: 100vw;
+    height: calc(100vw * 5 / 8);
+    padding: calc(10vh * 5 / 8);
+    padding-top: calc(5vh * 5 / 8);
+  }
+}
+
+pre {
+  background-color: rgb(224, 233, 240);
+  box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);
+  padding: 0.5em 1em;
+  line-height: 1.2em;
+  overflow: auto;
+}
+
+#navigation-arrows {
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+  height: 3rem;
+  width: 3rem;
+}
+
+#navigation-arrows .arrow {
+  stroke: lightblue;
+  /*stroke-width: 0.8em; Chrome behaves differently with ems here */
+  stroke-width: 16px;
+  stroke-linecap: round;
+  fill: none;
+  cursor: pointer;
+}
+
+td,
+th {
+  padding: 0.2em 0.8em;
+}
+
+th {
+  text-align: start;
+}

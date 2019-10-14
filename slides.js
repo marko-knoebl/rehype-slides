@@ -1,4 +1,36 @@
-const elementsToSimpleSlides = (rootNode, { slideSeparators }) => {
+const fs = require("fs");
+
+const unified = require("unified");
+const parse = require("rehype-parse");
+const select = require("hast-util-select").select;
+
+const htmlParser = unified().use(parse);
+
+const formats = {
+  default: {
+    template: '<html><div id="slides-container"></div></html>',
+    sectionClass: "slides_section",
+    slideClass: "slide",
+    sectionSeparators: ["h1"],
+    slideSeparators: ["h2"]
+  },
+  revealjs: {
+    template:
+      '<html><div class="reveal"><div id="slides-container" class="slides"></div></div></html>',
+    templateUrl: "presentation_templates/reveal_simple_template.html",
+    sectionClass: "",
+    slideClass: "",
+    sectionSeparators: ["h1"],
+    slideSeparators: ["h2"]
+  },
+  deck: {
+    template:
+      '<html><div id="slides-container" class="deck-container"></div></html>',
+    slideClass: "slide"
+  }
+};
+
+const elementsToSimpleSlides = (rootNode, { slideSeparators, slideClass }) => {
   if (rootNode.length === 0) {
     return [];
   }
@@ -8,7 +40,7 @@ const elementsToSimpleSlides = (rootNode, { slideSeparators }) => {
     slides.push({
       type: "element",
       tagName: "section",
-      properties: { class: "slide" },
+      properties: { class: slideClass },
       children: []
     });
   }
@@ -17,7 +49,7 @@ const elementsToSimpleSlides = (rootNode, { slideSeparators }) => {
       slides.push({
         type: "element",
         tagName: "section",
-        properties: { class: "slide" },
+        properties: { class: slideClass },
         children: []
       });
       // if the separating node has some content (e.g. h1)
@@ -34,7 +66,7 @@ const elementsToSimpleSlides = (rootNode, { slideSeparators }) => {
 
 const elementsToSectionedSlides = (
   rootNode,
-  { slideSeparators, sectionSeparators }
+  { slideSeparators, sectionSeparators, slideClass, sectionClass }
 ) => {
   // build an array of arrays of slides
   const sections = [];
@@ -60,10 +92,10 @@ const elementsToSectionedSlides = (
   const sectionElements = sections.map(section => ({
     type: "element",
     tagName: "section",
-    properties: { class: "slides_section" },
+    properties: { class: sectionClass },
     children: elementsToSimpleSlides(
       { type: "root", children: section },
-      { slideSeparators }
+      { slideSeparators, slideClass }
     ).children
   }));
 
@@ -82,18 +114,52 @@ const elementsToSectionedSlides = (
  *
  * @param {Node} rootNode
  * @param {Object} options
+ * @param {String} options.format e.g. "revealjs"
  * @param {String[]} options.slideSeparators e.g. ["hr", "h1", "h2"]
  * @param {String[]} options.sectionSeparators
+ * @param {String} options.slideClass CSS class to apply to slides
+ * @param {String} options.sectionClass CSS class to apply to sections
+ * @param {Boolean} options.contentOnly
  * @returns {string} string containting a sequence of HTML sections
  */
-const elementsToSlides = (rootNode, { slideSeparators, sectionSeparators }) => {
-  if (sectionSeparators.length === 0) {
-    return elementsToSimpleSlides(rootNode, { slideSeparators });
-  }
-  return elementsToSectionedSlides(rootNode, {
+const elementsToSlides = (
+  rootNode,
+  {
+    format,
     slideSeparators,
-    sectionSeparators
-  });
+    sectionSeparators,
+    slideClass,
+    sectionClass,
+    contentOnly
+  }
+) => {
+  let slides;
+  if (sectionSeparators.length === 0) {
+    slides = elementsToSimpleSlides(rootNode, {
+      format,
+      slideSeparators,
+      slideClass
+    });
+  } else {
+    slides = elementsToSectionedSlides(rootNode, {
+      format,
+      slideSeparators,
+      sectionSeparators,
+      slideClass,
+      sectionClass
+    });
+  }
+  if (!contentOnly) {
+    // include in surrounding HTML template
+    const template = fs.readFileSync(formats[format].templateUrl, {
+      encoding: "utf-8"
+    });
+    const parsedTemplate = htmlParser.parse(template);
+    const placeholderElement = select("#slides-container", parsedTemplate);
+    placeholderElement.children = slides.children;
+    slides = parsedTemplate;
+  }
+  return slides;
 };
 
 /**
@@ -102,15 +168,33 @@ const elementsToSlides = (rootNode, { slideSeparators, sectionSeparators }) => {
  * to an HTML representation.
  * The HTML representation will include section elements with the classes
  * "slide" and optionally "slides_section".
- * 
+ *
  * @param {Object} options
+ * @param {String[]} options.format e.g. "revealjs"
  * @param {String[]} options.slideSeparators e.g. ["hr", "h1", "h2"]
  * @param {String[]} options.sectionSeparators
+ * @param {String} options.slideClass CSS class to apply to slides
+ * @param {String} options.sectionClass CSS class to apply to sections
+ * @param {Boolean} options.contentOnly
  * @returns {function(rootNode: Node): Node}
  */
-const slides = ({ slideSeparators = ["hr"], sectionSeparators = [] } = {}) => {
+const slides = ({
+  format,
+  slideSeparators = ["hr"],
+  sectionSeparators = [],
+  slideClass = "slide",
+  sectionClass = "slides_section",
+  contentOnly = false
+} = {}) => {
   return rootNode =>
-    elementsToSlides(rootNode, { slideSeparators, sectionSeparators });
+    elementsToSlides(rootNode, {
+      format,
+      slideSeparators,
+      sectionSeparators,
+      slideClass,
+      sectionClass,
+      contentOnly
+    });
 };
 
 module.exports = { slides };
