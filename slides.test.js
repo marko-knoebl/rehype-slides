@@ -13,7 +13,7 @@ const fixtures = [
     in: "lorem ipsum",
     out_default: '<section class="slide"><p>lorem ipsum</p></section>',
     out_h1_sectionsep:
-      '<section class="slides_section">' +
+      '<section class="slides-section">' +
       '<section class="slide"><p>lorem ipsum</p></section></section>',
     out_reveal: "<section><section><p>lorem ipsum</p></section></section>",
     out_reveal_complete: new RegExp(
@@ -32,7 +32,7 @@ const fixtures = [
     out_h1_slidesep:
       '<section class="slide"><h1>title</h1><p>paragraph</p></section>',
     out_h1_sectionsep:
-      '<section class="slides_section"><section class="slide">' +
+      '<section class="slides-section"><section class="slide">' +
       "<h1>title</h1><p>paragraph</p></section></section>",
     out_reveal:
       "<section><section><h1>title</h1><p>paragraph</p></section></section>"
@@ -58,10 +58,10 @@ const fixtures = [
       '<section class="slide"><h1>a</h1></section>' +
       '<section class="slide"><h1>b</h1></section>',
     out_h1_sectionsep:
-      '<section class="slides_section">' +
+      '<section class="slides-section">' +
       '<section class="slide"><h1>a</h1></section>' +
       "</section>" +
-      '<section class="slides_section">' +
+      '<section class="slides-section">' +
       '<section class="slide"><h1>b</h1></section>' +
       "</section>",
     out_reveal:
@@ -77,11 +77,11 @@ const fixtures = [
       '<section class="slide"><h1>a</h1><h2>a1</h2></section>' +
       '<section class="slide"><h1>b</h1></section>',
     out_h1_sectionsep:
-      '<section class="slides_section">' +
+      '<section class="slides-section">' +
       '<section class="slide"><h1>a</h1></section>' +
       '<section class="slide"><h2>a1</h2></section>' +
       "</section>" +
-      '<section class="slides_section">' +
+      '<section class="slides-section">' +
       '<section class="slide"><h1>b</h1></section>' +
       "</section>"
   }
@@ -112,7 +112,7 @@ const pipelineH1Sectionsep = unified()
     contentOnly: true,
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"],
-    sectionClass: "slides_section"
+    sectionClass: "slides-section"
   })
   .use(minifyWhitespace);
 

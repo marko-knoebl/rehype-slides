@@ -7,16 +7,14 @@ const select = require("hast-util-select").select;
 const htmlParser = unified().use(parse);
 
 const formats = {
-  default: {
-    template: '<html><div id="slides-container"></div></html>',
-    sectionClass: "slides_section",
+  standard: {
+    templateUrl: "presentation_templates/standard_template.html",
+    sectionClass: "slides-section",
     slideClass: "slide",
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"]
   },
   revealjs: {
-    template:
-      '<html><div class="reveal"><div id="slides-container" class="slides"></div></div></html>',
     templateUrl: "presentation_templates/reveal_simple_template.html",
     sectionClass: "",
     slideClass: "",
@@ -24,8 +22,7 @@ const formats = {
     slideSeparators: ["h2"]
   },
   deck: {
-    template:
-      '<html><div id="slides-container" class="deck-container"></div></html>',
+    templateUrl: "presentation_templates/deck_template.html",
     slideClass: "slide"
   }
 };
@@ -88,7 +85,7 @@ const elementsToSectionedSlides = (
   });
 
   // turn the array of arrays of slide elements into
-  // an array of slides_section elements
+  // an array of slides-section elements
   const sectionElements = sections.map(section => ({
     type: "element",
     tagName: "section",
@@ -110,7 +107,7 @@ const elementsToSectionedSlides = (
  * Converts HTML elements that came from a Markdown presentation
  * to an HTML representation.
  * The HTML representation will include section elements with the classes
- * "slide" and optionally "slides_section".
+ * "slide" and optionally "slides-section".
  *
  * @param {Node} rootNode
  * @param {Object} options
@@ -155,7 +152,13 @@ const elementsToSlides = (
       encoding: "utf-8"
     });
     const parsedTemplate = htmlParser.parse(template);
-    const placeholderElement = select("#slides-container", parsedTemplate);
+    const placeholderElement = select("#slides-placeholder", parsedTemplate);
+    placeholderElement.properties.id = null;
+    if (!placeholderElement.properties.className) {
+      placeholderElement.properties.className = "slides";
+    } else {
+      placeholderElement.properties.className += " slides";
+    }
     placeholderElement.children = slides.children;
     slides = parsedTemplate;
   }
@@ -167,7 +170,7 @@ const elementsToSlides = (
  * Converts HTML elements that came from a Markdown presentation
  * to an HTML representation.
  * The HTML representation will include section elements with the classes
- * "slide" and optionally "slides_section".
+ * "slide" and optionally "slides-section".
  *
  * @param {Object} options
  * @param {String[]} options.format e.g. "revealjs"
@@ -183,7 +186,7 @@ const slides = ({
   slideSeparators = ["hr"],
   sectionSeparators = [],
   slideClass = "slide",
-  sectionClass = "slides_section",
+  sectionClass = "slides-section",
   contentOnly = false
 } = {}) => {
   return rootNode =>
