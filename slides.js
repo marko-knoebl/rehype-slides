@@ -15,14 +15,21 @@ const formats = {
     slideSeparators: ["h2"]
   },
   revealjs: {
-    templateUrl: "presentation_templates/reveal_simple_template.html",
+    templateUrl: "presentation_templates/reveal.html",
+    sectionClass: "",
+    slideClass: "",
+    sectionSeparators: ["h1"],
+    slideSeparators: ["h2"]
+  },
+  revealjs_karuga: {
+    templateUrl: "presentation_templates/reveal_karuga.html",
     sectionClass: "",
     slideClass: "",
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"]
   },
   deck: {
-    templateUrl: "presentation_templates/deck_template.html",
+    templateUrl: "presentation_templates/deck.html",
     slideClass: "slide"
   }
 };

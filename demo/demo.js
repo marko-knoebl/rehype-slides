@@ -3,14 +3,14 @@ const markdown = require("remark-parse");
 const remarkRehype = require("remark-rehype");
 const html = require("rehype-stringify");
 const rehypeInline = require("@karuga/rehype-inline");
-const highlight = require('rehype-highlight')
+const highlight = require("rehype-highlight");
 const fs = require("fs");
 
 const { slides } = require("../slides.js");
 
-const demoIn1 = fs.readFileSync("demo/demo_in_1.md");
-const demoIn2 = fs.readFileSync("demo/demo_in_2.md");
-const demoIn4 = fs.readFileSync("demo/demo_in_4.md");
+const demoInHrSep = fs.readFileSync("demo/demo_in_hr_sep.md");
+const demoInSections = fs.readFileSync("demo/demo_in_sections.md");
+const demoInPythonBeginner = fs.readFileSync("demo/demo_in_python_beginner.md");
 
 unified()
   .use(markdown)
@@ -18,9 +18,9 @@ unified()
   .use(slides, { format: "revealjs" })
   .use(rehypeInline)
   .use(html, { closeSelfClosing: true })
-  .process(demoIn1)
+  .process(demoInHrSep)
   .then(content => {
-    fs.writeFileSync("demo/demo_out_1.html", content.toString());
+    fs.writeFileSync("demo/demo_out_hr_sep_reveal.html", content.toString());
   });
 
 unified()
@@ -33,9 +33,9 @@ unified()
   })
   .use(rehypeInline)
   .use(html, { closeSelfClosing: true })
-  .process(demoIn2)
+  .process(demoInSections)
   .then(content => {
-    fs.writeFileSync("demo/demo_out_2.html", content.toString());
+    fs.writeFileSync("demo/demo_out_sections_reveal.html", content.toString());
   });
 
 unified()
@@ -48,9 +48,12 @@ unified()
   })
   .use(rehypeInline)
   .use(html, { closeSelfClosing: true })
-  .process(demoIn2)
+  .process(demoInSections)
   .then(content => {
-    fs.writeFileSync("demo/demo_out_3.html", content.toString());
+    fs.writeFileSync(
+      "demo/demo_out_sections_standard.html",
+      content.toString()
+    );
   });
 
 unified()
@@ -58,13 +61,16 @@ unified()
   .use(remarkRehype)
   .use(highlight)
   .use(slides, {
-    format: "revealjs",
+    format: "revealjs_karuga",
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"]
   })
   .use(rehypeInline)
   .use(html, { closeSelfClosing: true })
-  .process(demoIn4)
+  .process(demoInPythonBeginner)
   .then(content => {
-    fs.writeFileSync("demo/demo_out_4.html", content.toString());
+    fs.writeFileSync(
+      "demo/demo_out_python_beginner_reveal_karuga.html",
+      content.toString()
+    );
   });
