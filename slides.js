@@ -8,28 +8,28 @@ const htmlParser = unified().use(parse);
 
 const formats = {
   standard: {
-    templateUrl: "presentation_templates/standard_template.html",
+    templateUrl: `${__dirname}/presentation_templates/standard_template.html`,
     sectionClass: "slides-section",
     slideClass: "slide",
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"]
   },
   revealjs: {
-    templateUrl: "presentation_templates/reveal.html",
+    templateUrl: `${__dirname}/presentation_templates/reveal.html`,
     sectionClass: "",
     slideClass: "",
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"]
   },
   revealjs_karuga: {
-    templateUrl: "presentation_templates/reveal_karuga.html",
+    templateUrl: `${__dirname}/presentation_templates/reveal_karuga.html`,
     sectionClass: "",
     slideClass: "",
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"]
   },
   deck: {
-    templateUrl: "presentation_templates/deck.html",
+    templateUrl: `${__dirname}/presentation_templates/deck.html`,
     slideClass: "slide"
   }
 };
