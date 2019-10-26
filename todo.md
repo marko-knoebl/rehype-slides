@@ -12,3 +12,5 @@ example usage:
 npx slides my_slides.md my_slides.html
 npx slides my_slides.md my_slides.html --heading-separators --highlight
 ```
+
+# move packages from dependencies to devDependencies

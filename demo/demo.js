@@ -1,6 +1,7 @@
 const unified = require("unified");
 const markdown = require("remark-parse");
 const remarkRehype = require("remark-rehype");
+const rehypeRaw = require("rehype-raw");
 const html = require("rehype-stringify");
 const rehypeInline = require("@karuga/rehype-inline");
 const highlight = require("rehype-highlight");
@@ -14,7 +15,8 @@ const demoInPythonBeginner = fs.readFileSync("demo/demo_in_python_beginner.md");
 
 unified()
   .use(markdown)
-  .use(remarkRehype)
+  .use(remarkRehype, { allowDangerousHTML: true })
+  .use(rehypeRaw)
   .use(slides, { format: "revealjs" })
   .use(rehypeInline)
   .use(html, { closeSelfClosing: true })
@@ -25,7 +27,8 @@ unified()
 
 unified()
   .use(markdown)
-  .use(remarkRehype)
+  .use(remarkRehype, { allowDangerousHTML: true })
+  .use(rehypeRaw)
   .use(slides, {
     format: "revealjs",
     sectionSeparators: ["h1"],
@@ -40,7 +43,8 @@ unified()
 
 unified()
   .use(markdown)
-  .use(remarkRehype)
+  .use(remarkRehype, { allowDangerousHTML: true })
+  .use(rehypeRaw)
   .use(slides, {
     format: "standard",
     sectionSeparators: ["h1"],
@@ -58,7 +62,8 @@ unified()
 
 unified()
   .use(markdown)
-  .use(remarkRehype)
+  .use(remarkRehype, { allowDangerousHTML: true })
+  .use(rehypeRaw)
   .use(highlight)
   .use(slides, {
     format: "revealjs_karuga",
