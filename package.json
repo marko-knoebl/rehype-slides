@@ -1,7 +1,7 @@
 {
   "name": "@karuga/slides",
   "description": "a unified.js plugin for creating HTML slides from markdown",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "author": "Marko Knöbl",
   "license": "ISC",
   "main": "slides.js",
