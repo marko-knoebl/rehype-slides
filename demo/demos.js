@@ -1,11 +1,12 @@
+const fs = require("fs");
+
 const unified = require("unified");
-const markdown = require("remark-parse");
+const remarkParse = require("remark-parse");
 const remarkRehype = require("remark-rehype");
 const rehypeRaw = require("rehype-raw");
-const html = require("rehype-stringify");
+const rehypeHighlight = require("rehype-highlight");
 const rehypeInline = require("@karuga/rehype-inline");
-const highlight = require("rehype-highlight");
-const fs = require("fs");
+const rehypeStringify = require("rehype-stringify");
 
 const slides = require("../slides.js");
 
@@ -14,19 +15,19 @@ const demoInSections = fs.readFileSync("demo/demo_in_sections.md");
 const demoInPythonBeginner = fs.readFileSync("demo/demo_in_python_beginner.md");
 
 unified()
-  .use(markdown)
+  .use(remarkParse)
   .use(remarkRehype, { allowDangerousHTML: true })
   .use(rehypeRaw)
   .use(slides, { format: "revealjs" })
   .use(rehypeInline)
-  .use(html, { closeSelfClosing: true })
+  .use(rehypeStringify, { closeSelfClosing: true })
   .process(demoInHrSep)
   .then(content => {
     fs.writeFileSync("demo/demo_out_hr_sep_reveal.html", content.toString());
   });
 
 unified()
-  .use(markdown)
+  .use(remarkParse)
   .use(remarkRehype, { allowDangerousHTML: true })
   .use(rehypeRaw)
   .use(slides, {
@@ -35,14 +36,14 @@ unified()
     slideSeparators: ["h2"]
   })
   .use(rehypeInline)
-  .use(html, { closeSelfClosing: true })
+  .use(rehypeStringify, { closeSelfClosing: true })
   .process(demoInSections)
   .then(content => {
     fs.writeFileSync("demo/demo_out_sections_reveal.html", content.toString());
   });
 
 unified()
-  .use(markdown)
+  .use(remarkParse)
   .use(remarkRehype, { allowDangerousHTML: true })
   .use(rehypeRaw)
   .use(slides, {
@@ -51,7 +52,7 @@ unified()
     slideSeparators: ["h2"]
   })
   .use(rehypeInline)
-  .use(html, { closeSelfClosing: true })
+  .use(rehypeStringify, { closeSelfClosing: true })
   .process(demoInSections)
   .then(content => {
     fs.writeFileSync(
@@ -61,17 +62,17 @@ unified()
   });
 
 unified()
-  .use(markdown)
+  .use(remarkParse)
   .use(remarkRehype, { allowDangerousHTML: true })
   .use(rehypeRaw)
-  .use(highlight)
+  .use(rehypeHighlight)
   .use(slides, {
     format: "revealjs_karuga",
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"]
   })
   .use(rehypeInline)
-  .use(html, { closeSelfClosing: true })
+  .use(rehypeStringify, { closeSelfClosing: true })
   .process(demoInPythonBeginner)
   .then(content => {
     fs.writeFileSync(

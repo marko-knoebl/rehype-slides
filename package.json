@@ -12,6 +12,7 @@
     "@karuga/rehype-inline": "^1.0.0",
     "@karuga/reveal-theme-karuga": "^0.3.0",
     "hast-util-select": "^3.0.1",
+    "rehype-format": "^3.0.0",
     "rehype-highlight": "^3.0.0",
     "rehype-parse": "^6.0.1",
     "rehype-raw": "^4.0.1",
