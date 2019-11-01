@@ -7,7 +7,7 @@ const rehypeInline = require("@karuga/rehype-inline");
 const highlight = require("rehype-highlight");
 const fs = require("fs");
 
-const { slides } = require("../slides.js");
+const slides = require("../slides.js");
 
 const demoInHrSep = fs.readFileSync("demo/demo_in_hr_sep.md");
 const demoInSections = fs.readFileSync("demo/demo_in_sections.md");

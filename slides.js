@@ -207,4 +207,4 @@ const slides = ({
     });
 };
 
-module.exports = { slides };
+module.exports = slides;

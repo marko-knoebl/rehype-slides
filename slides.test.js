@@ -5,7 +5,7 @@ const html = require("rehype-stringify");
 const minifyWhitespace = require("rehype-minify-whitespace");
 const rehypeInline = require("@karuga/rehype-inline");
 
-const { slides } = require("./slides.js");
+const slides = require("./slides.js");
 
 const fixtures = [
   {
