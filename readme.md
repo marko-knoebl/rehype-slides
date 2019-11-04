@@ -2,7 +2,7 @@
 
 This is a transformer plugin for unified.js that creates HTML slides / presentations from markdown input.
 
-## Example
+## Demo
 
 ```js
 const fs = require("fs");
@@ -43,19 +43,21 @@ const htmlString = pipeline.processSync(input).toString();
 fs.writeFileSync("slides.html", htmlString);
 ```
 
+(see file `demo/demo_main.js`)
+
 ## More demos
 
 Run the demos via:
 
 ```
-node demo/demo.js
+node demo/demos.js
 ```
 
 This will read the markdown files and create new HTML files in the demo folder.
 
 ## Formats
 
-At the moment the main format that is supported is reveal.js presentations. Other formats will be added in the future.
+At the moment the main format that is supported is reveal.js presentations. Other formats may be added in the future.
 
 ## Configuration options
 
