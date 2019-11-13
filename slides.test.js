@@ -3,7 +3,7 @@ const markdown = require("remark-parse");
 const remarkRehype = require("remark-rehype");
 const html = require("rehype-stringify");
 const minifyWhitespace = require("rehype-minify-whitespace");
-const rehypeInline = require("@karuga/rehype-inline");
+const rehypeInline = require("rehype-inline");
 
 const slides = require("./slides.js");
 

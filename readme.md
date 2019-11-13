@@ -12,7 +12,7 @@ const remarkParse = require("remark-parse");
 const remarkRehype = require("remark-rehype");
 const rehypeRaw = require("rehype-raw");
 const rehypeHighlight = require("rehype-highlight");
-const rehypeInline = require("@karuga/rehype-inline");
+const rehypeInline = require("rehype-inline");
 const rehypeStringify = require("rehype-stringify");
 
 const slides = require("@karuga/slides");
