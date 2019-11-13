@@ -46,25 +46,6 @@ unified()
   .use(remarkParse)
   .use(remarkRehype, { allowDangerousHTML: true })
   .use(rehypeRaw)
-  .use(slides, {
-    format: "standard",
-    sectionSeparators: ["h1"],
-    slideSeparators: ["h2"]
-  })
-  .use(rehypeInline)
-  .use(rehypeStringify, { closeSelfClosing: true })
-  .process(demoInSections)
-  .then(content => {
-    fs.writeFileSync(
-      "demo/demo_out_sections_standard.html",
-      content.toString()
-    );
-  });
-
-unified()
-  .use(remarkParse)
-  .use(remarkRehype, { allowDangerousHTML: true })
-  .use(rehypeRaw)
   .use(rehypeHighlight)
   .use(slides, {
     format: "revealjs_karuga",
