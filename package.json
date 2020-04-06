@@ -1,5 +1,5 @@
 {
-  "name": "@karuga/slides",
+  "name": "@karuga/rehype-slides",
   "description": "a unified.js plugin for creating HTML slides from markdown",
   "version": "1.0.1",
   "author": "Marko Knöbl",
