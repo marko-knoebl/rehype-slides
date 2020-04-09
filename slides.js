@@ -4,35 +4,9 @@ const unified = require("unified");
 const parse = require("rehype-parse");
 const select = require("hast-util-select").select;
 
-const htmlParser = unified().use(parse);
+const presets = require("./presets.js").presets;
 
-const formats = {
-  standard: {
-    templateUrl: `${__dirname}/presentation_templates/standard_template.html`,
-    sectionClass: "slides-section",
-    slideClass: "slide",
-    sectionSeparators: ["h1"],
-    slideSeparators: ["h2"]
-  },
-  revealjs: {
-    templateUrl: `${__dirname}/presentation_templates/reveal.html`,
-    sectionClass: "",
-    slideClass: "",
-    sectionSeparators: ["h1"],
-    slideSeparators: ["h2"]
-  },
-  revealjs_karuga: {
-    templateUrl: `${__dirname}/presentation_templates/reveal_karuga.html`,
-    sectionClass: "",
-    slideClass: "",
-    sectionSeparators: ["h1"],
-    slideSeparators: ["h2"]
-  },
-  deck: {
-    templateUrl: `${__dirname}/presentation_templates/deck.html`,
-    slideClass: "slide"
-  }
-};
+const htmlParser = unified().use(parse);
 
 const elementsToSimpleSlides = (rootNode, { slideSeparators, slideClass }) => {
   if (rootNode.length === 0) {
@@ -109,6 +83,15 @@ const elementsToSectionedSlides = (
   };
 };
 
+const defaultOptions = {
+  slideSeparators: ["hr"],
+  sectionSeparators: [],
+  slideClass: "slide",
+  sectionClass: "slides-section",
+  contentOnly: false,
+  templateUrl: `${__dirname}/templates/reveal.html`
+};
+
 /**
  * Creates an HTML representation of a presentation
  * Converts HTML elements that came from a Markdown presentation
@@ -117,45 +100,43 @@ const elementsToSectionedSlides = (
  * "slide" and optionally "slides-section".
  *
  * @param {Node} rootNode
- * @param {Object} options
- * @param {String} options.format e.g. "revealjs"
+ * @param {(Object|String)} options
+ *   an object or one of the strings:
+ *   "default", "default-compact", "headings", "headings-compact"
  * @param {String[]} options.slideSeparators e.g. ["hr", "h1", "h2"]
  * @param {String[]} options.sectionSeparators
  * @param {String} options.slideClass CSS class to apply to slides
  * @param {String} options.sectionClass CSS class to apply to sections
+ * @param {String} options.templateUrl url of template to use
  * @param {Boolean} options.contentOnly
  * @returns {string} string containting a sequence of HTML sections
  */
-const elementsToSlides = (
-  rootNode,
-  {
-    format,
-    slideSeparators,
-    sectionSeparators,
-    slideClass,
-    sectionClass,
-    contentOnly
+const hastSlides = (rootNode, options = "standard") => {
+  if (typeof options === "string") {
+    options = presets[options];
   }
-) => {
+  for (let option in defaultOptions) {
+    if (options[option] === undefined) {
+      options[option] = defaultOptions[option];
+    }
+  }
   let slides;
-  if (sectionSeparators.length === 0) {
+  if (options.sectionSeparators.length === 0) {
     slides = elementsToSimpleSlides(rootNode, {
-      format,
-      slideSeparators,
-      slideClass
+      slideSeparators: options.slideSeparators,
+      slideClass: options.slideClass
     });
   } else {
     slides = elementsToSectionedSlides(rootNode, {
-      format,
-      slideSeparators,
-      sectionSeparators,
-      slideClass,
-      sectionClass
+      slideSeparators: options.slideSeparators,
+      sectionSeparators: options.sectionSeparators,
+      slideClass: options.slideClass,
+      sectionClass: options.sectionClass
     });
   }
-  if (!contentOnly) {
+  if (!options.contentOnly) {
     // include in surrounding HTML template
-    const template = fs.readFileSync(formats[format].templateUrl, {
+    const template = fs.readFileSync(options.templateUrl, {
       encoding: "utf-8"
     });
     const parsedTemplate = htmlParser.parse(template);
@@ -173,38 +154,26 @@ const elementsToSlides = (
 };
 
 /**
- * Creates an HTML representation of a presentation
+ * Rehype plugin that creates an HTML representation of a presentation
  * Converts HTML elements that came from a Markdown presentation
  * to an HTML representation.
  * The HTML representation will include section elements with the classes
  * "slide" and optionally "slides-section".
  *
- * @param {Object} options
- * @param {String[]} options.format e.g. "revealjs"
+ * @param {(Object|String)} options
+ *   an object or one of the strings:
+ *   "default", "default-compact", "headings", "headings-compact"
  * @param {String[]} options.slideSeparators e.g. ["hr", "h1", "h2"]
  * @param {String[]} options.sectionSeparators
  * @param {String} options.slideClass CSS class to apply to slides
  * @param {String} options.sectionClass CSS class to apply to sections
+ * @param {String} options.templateUrl url of template to use
  * @param {Boolean} options.contentOnly
  * @returns {function(rootNode: Node): Node}
  */
-const slides = ({
-  format,
-  slideSeparators = ["hr"],
-  sectionSeparators = [],
-  slideClass = "slide",
-  sectionClass = "slides-section",
-  contentOnly = false
-} = {}) => {
-  return rootNode =>
-    elementsToSlides(rootNode, {
-      format,
-      slideSeparators,
-      sectionSeparators,
-      slideClass,
-      sectionClass,
-      contentOnly
-    });
+const rehypeSlides = options => {
+  return rootNode => hastSlides(rootNode, options);
 };
 
-module.exports = slides;
+module.exports = rehypeSlides;
+module.exports.hastSlides = hastSlides;

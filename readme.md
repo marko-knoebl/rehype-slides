@@ -31,10 +31,7 @@ const pipeline = unified()
   .use(remarkParse) // parse markdown string
   .use(remarkRehype, { allowDangerousHTML: true }) // convert to HTML
   .use(rehypeRaw) // parse again to get inner HTML elements
-  .use(slides, {
-    format: "revealjs",
-    slideSeparators: ["h1"]
-  }) // convert to a reveal.js presentation
+  .use(slides, "headings-compact") // convert to a reveal.js presentation (slides are delimited by headings)
   .use(rehypeHighlight) // highlight code blocks
   .use(rehypeInline) // bundle into one file
   .use(rehypeStringify);
@@ -61,16 +58,27 @@ At the moment the main format that is supported is reveal.js presentations. Othe
 
 ## Configuration options
 
-example:
+examples:
 
 ```js
+// default settings
+unified().use(slides);
+
+// named presets
+unified().use(slides, "standard");
+unified().use(slides, "standard-compact");
+unified().use(slides, "headings");
+unified().use(slides, "headings-compact");
+
+// individual config
 unified().use(slides, {
-  format: "revealjs",
   sectionSeparators: ["h1"],
-  slideSeparators: ["h2"]
+  slideSeparators: ["h2"],
+  templateUrl: "./mytemplate.html"
 });
 ```
 
-- `format`: `"revealjs"` or `"revealjs_karuga"`; other formats may be supported in the future
 - `slideSeparators`: array of HTML elements that separate slides; e.g.: `["h2", "hr"]`, default: `[]`
 - `sectionSeparators`: array of HTML elements that separate sections; e.g.: `["h1"]`, default: `[]`
+- `templateUrl`: url of template to use
+- `contentOnly`: whether to form a complete HTML document

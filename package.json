@@ -1,7 +1,7 @@
 {
   "name": "@karuga/rehype-slides",
   "description": "a unified.js plugin for creating HTML slides from markdown",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "author": "Marko Knöbl",
   "license": "ISC",
   "main": "slides.js",
@@ -12,12 +12,12 @@
     "@karuga/reveal-theme-karuga": "^0.3.0",
     "hast-util-select": "^3.0.1",
     "highlight.js": "^9.18.1",
-    "rehype-parse": "^6.0.1",
+    "rehype-parse": "^6.0.2",
     "reveal.js": "^3.8.0",
-    "unified": "^8.4.0"
+    "unified": "^9.0.0"
   },
   "devDependencies": {
-    "jest": "^24.9.0",
+    "jest": "^25.3.0",
     "rehype-format": "^3.0.0",
     "rehype-highlight": "^3.0.0",
     "rehype-inline": "^1.2.2",

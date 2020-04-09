@@ -122,7 +122,6 @@ const pipelineReveal = unified()
   .use(html)
   .use(slides, {
     contentOnly: true,
-    format: "revealjs",
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"],
     slideClass: null,
@@ -136,12 +135,19 @@ const pipelineRevealComplete = unified()
   .use(remarkRehype)
   .use(html)
   .use(slides, {
-    format: "revealjs",
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"],
     slideClass: null,
     sectionClass: null
   })
+  .use(rehypeInline)
+  .use(minifyWhitespace);
+
+const pipelineHeadingsPreset = unified()
+  .use(markdown)
+  .use(remarkRehype)
+  .use(html)
+  .use(slides, "headings")
   .use(rehypeInline)
   .use(minifyWhitespace);
 
@@ -186,6 +192,14 @@ for (let fixture of fixtures) {
       if (fixture.out_reveal_complete) {
         it("reveal complete document", done => {
           pipelineRevealComplete.process(fixture.in).then(result => {
+            expect(result.toString()).toMatch(fixture.out_reveal_complete);
+            done();
+          });
+        });
+      }
+      if (fixture.out_reveal_complete) {
+        it("reveal preset complete document", done => {
+          pipelineHeadingsPreset.process(fixture.in).then(result => {
             expect(result.toString()).toMatch(fixture.out_reveal_complete);
             done();
           });
