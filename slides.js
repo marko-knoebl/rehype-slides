@@ -111,9 +111,9 @@ const defaultOptions = {
  * @param {Boolean} options.contentOnly
  * @returns {string} string containting a sequence of HTML sections
  */
-const hastSlides = (rootNode, options = "standard") => {
-  if (typeof options === "string") {
-    options = presets[options];
+const hastSlides = (rootNode, options = { preset: "standard" }) => {
+  if (options.preset !== undefined) {
+    options = presets[options.preset];
   }
   for (let option in defaultOptions) {
     if (options[option] === undefined) {

@@ -20,6 +20,7 @@ const fixtures = [
       "^<!doctype[\\s\\S]+" +
         // style element and script element starting with: /*!
         "<style>/\\*![\\s\\S]+" +
+        '<section class="slides-section"[\\s\\S]+' +
         "<script>/\\*![\\s\\S]+" +
         "</html>$"
     )
@@ -137,8 +138,8 @@ const pipelineRevealComplete = unified()
   .use(slides, {
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"],
-    slideClass: null,
-    sectionClass: null
+    slideClass: "slide",
+    sectionClass: "slides-section"
   })
   .use(rehypeInline)
   .use(minifyWhitespace);
@@ -147,7 +148,7 @@ const pipelineHeadingsPreset = unified()
   .use(markdown)
   .use(remarkRehype)
   .use(html)
-  .use(slides, "headings")
+  .use(slides, { preset: "headings" })
   .use(rehypeInline)
   .use(minifyWhitespace);
 

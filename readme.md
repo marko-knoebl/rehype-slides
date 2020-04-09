@@ -64,11 +64,11 @@ examples:
 // default settings
 unified().use(slides);
 
-// named presets
-unified().use(slides, "standard");
-unified().use(slides, "standard-compact");
-unified().use(slides, "headings");
-unified().use(slides, "headings-compact");
+// presets
+unified().use(slides, { presets: "standard" });
+unified().use(slides, { presets: "standard-compact" });
+unified().use(slides, { presets: "headings" });
+unified().use(slides, { presets: "headings-compact" });
 
 // individual config
 unified().use(slides, {
@@ -82,3 +82,4 @@ unified().use(slides, {
 - `sectionSeparators`: array of HTML elements that separate sections; e.g.: `["h1"]`, default: `[]`
 - `templateUrl`: url of template to use
 - `contentOnly`: whether to form a complete HTML document
+- `presets`: sets multiple options at once
