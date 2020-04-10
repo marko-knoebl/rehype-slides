@@ -100,18 +100,21 @@ const defaultOptions = {
  * "slide" and optionally "slides-section".
  *
  * @param {Node} rootNode
- * @param {(Object|String)} options
- *   an object or one of the strings:
- *   "default", "default-compact", "headings", "headings-compact"
+ * @param {Object} options
+ * @param {String} options.preset
+ *     one of "standard", "standard_compact", "headings", "headings_compact"
  * @param {String[]} options.slideSeparators e.g. ["hr", "h1", "h2"]
  * @param {String[]} options.sectionSeparators
  * @param {String} options.slideClass CSS class to apply to slides
  * @param {String} options.sectionClass CSS class to apply to sections
  * @param {String} options.templateUrl url of template to use
  * @param {Boolean} options.contentOnly
+ *     when set to true, will not include surrounding HTML
  * @returns {string} string containting a sequence of HTML sections
  */
 const hastSlides = (rootNode, options = { preset: "standard" }) => {
+  // create a flat copy of the options object
+  options = { ...options };
   if (options.preset !== undefined) {
     options = presets[options.preset];
   }
@@ -160,15 +163,16 @@ const hastSlides = (rootNode, options = { preset: "standard" }) => {
  * The HTML representation will include section elements with the classes
  * "slide" and optionally "slides-section".
  *
- * @param {(Object|String)} options
- *   an object or one of the strings:
- *   "default", "default-compact", "headings", "headings-compact"
+ * @param {Object} options
+ * @param {String} options.preset
+ *     one of "standard", "standard_compact", "headings", "headings_compact"
  * @param {String[]} options.slideSeparators e.g. ["hr", "h1", "h2"]
  * @param {String[]} options.sectionSeparators
  * @param {String} options.slideClass CSS class to apply to slides
  * @param {String} options.sectionClass CSS class to apply to sections
  * @param {String} options.templateUrl url of template to use
  * @param {Boolean} options.contentOnly
+ *     when set to true, will not include surrounding HTML
  * @returns {function(rootNode: Node): Node}
  */
 const rehypeSlides = options => {

@@ -31,7 +31,8 @@ const pipeline = unified()
   .use(remarkParse) // parse markdown string
   .use(remarkRehype, { allowDangerousHTML: true }) // convert to HTML
   .use(rehypeRaw) // parse again to get inner HTML elements
-  .use(slides, "headings-compact") // convert to a reveal.js presentation (slides are delimited by headings)
+  // convert to a reveal.js presentation (slides are delimited by headings)
+  .use(slides, "headings_compact")
   .use(rehypeHighlight) // highlight code blocks
   .use(rehypeInline) // bundle into one file
   .use(rehypeStringify);
@@ -65,10 +66,10 @@ examples:
 unified().use(slides);
 
 // presets
-unified().use(slides, { presets: "standard" });
-unified().use(slides, { presets: "standard-compact" });
-unified().use(slides, { presets: "headings" });
-unified().use(slides, { presets: "headings-compact" });
+unified().use(slides, { preset: "standard" });
+unified().use(slides, { preset: "standard_compact" });
+unified().use(slides, { preset: "headings" });
+unified().use(slides, { preset: "headings_compact" });
 
 // individual config
 unified().use(slides, {
@@ -82,4 +83,4 @@ unified().use(slides, {
 - `sectionSeparators`: array of HTML elements that separate sections; e.g.: `["h1"]`, default: `[]`
 - `templateUrl`: url of template to use
 - `contentOnly`: whether to form a complete HTML document
-- `presets`: sets multiple options at once
+- `preset`: sets multiple options at once

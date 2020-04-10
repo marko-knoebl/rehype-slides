@@ -10,7 +10,7 @@ const standard = {
   templateUrl: `${__dirname}/templates/reveal.html`
 };
 
-const standardCompact = {
+const standard_compact = {
   ...standard,
   templateUrl: `${__dirname}/templates/reveal_compact.html`
 };
@@ -22,14 +22,14 @@ const headings = {
   templateUrl: `${__dirname}/templates/reveal.html`
 };
 
-const headingsCompact = {
+const headings_compact = {
   ...headings,
   templateUrl: `${__dirname}/templates/reveal_compact.html`
 };
 
 module.exports.presets = {
   standard,
-  standardCompact,
+  standard_compact,
   headings,
-  headingsCompact
+  headings_compact
 };
