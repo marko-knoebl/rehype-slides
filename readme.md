@@ -2,6 +2,8 @@
 
 This is a transformer plugin for unified.js that creates HTML slides / presentations from markdown input.
 
+This plugin is used to create the slides at <https://marko-knoebl.github.io/slides/>
+
 ## rehype-slides-starter
 
 To start out with new slides, you can clone: [rehype-slides-starter](https://github.com/marko-knoebl/rehype-slides-starter)
@@ -63,7 +65,7 @@ This will read the markdown files and create new HTML files in the demo folder.
 
 ## Formats
 
-At the moment the main format that is supported is reveal.js presentations. Other formats may be added in the future.
+At the moment the main format that is supported is [reveal.js](https://github.com/hakimel/reveal.js/) presentations. Other formats may be added in the future.
 
 ## Configuration options
 
