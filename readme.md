@@ -1,6 +1,10 @@
-# Slides
+# rehype-slides
 
 This is a transformer plugin for unified.js that creates HTML slides / presentations from markdown input.
+
+## rehype-slides-starter
+
+To start out with new slides, you can clone: [rehype-slides-starter](https://github.com/marko-knoebl/rehype-slides-starter)
 
 ## Demo
 
