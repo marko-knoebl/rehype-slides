@@ -1608,7 +1608,13 @@ body {
  * By Hakim El Hattab, http://hakim.se
  */
 @import url(../../lib/font/source-sans-pro/source-sans-pro.css);
-section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
+section.has-dark-background,
+section.has-dark-background h1,
+section.has-dark-background h2,
+section.has-dark-background h3,
+section.has-dark-background h4,
+section.has-dark-background h5,
+section.has-dark-background h6 {
   color: #fff; }
 
 /*********************************************
@@ -1620,7 +1626,7 @@ body {
 
 .reveal {
   font-family: "Source Sans Pro", Helvetica, sans-serif;
-  font-size: 42px;
+  font-size: 24px;
   font-weight: normal;
   color: #222; }
 
@@ -1875,6 +1881,51 @@ body {
 @media print {
   .backgrounds {
     background-color: #fff; } }
+
+.reveal .slides {
+  text-align: unset; }
+
+.reveal .slides h1 {
+  text-align: center; }
+
+.reveal .slides section,
+.reveal .slides section > section {
+  line-height: unset; }
+
+.reveal .slides {
+  line-height: 1.5; }
+
+.reveal .slides pre {
+  font-size: 1em;
+  line-height: 1.2;
+  width: unset; }
+
+.reveal .slides pre code {
+  padding: 0.5em 1em; }
+
+.reveal .slides p {
+  line-height: 1.5;
+  margin-bottom: 1em; }
+
+.reveal .slides h1,
+.reveal .slides h2,
+.reveal .slides h3,
+.reveal .slides h4,
+.reveal .slides h5,
+.reveal .slides h6 {
+  margin-bottom: 1em; }
+
+.reveal ul ul,
+.reveal ul ol,
+.reveal ol ol,
+.reveal ol ul {
+  margin: 0; }
+
+.reveal ol,
+.reveal dl,
+.reveal ul {
+  display: block;
+  margin: 0 0 1em 0; }
 </style>
     <style>/*
 
@@ -1979,10 +2030,10 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
   </head>
   <body>
     <div class="reveal">
-      <div class="slides slides"><section class="slide"><h1>slide 1</h1>
+      <div class="slides slides"><section class="slides-section"><section class="slide"><h1>slide 1</h1>
 <p>content of slide 1</p>
-</section><section class="slide"><h1>slide 2</h1>
-<p>content of slide 2</p></section></div>
+</section></section><section class="slides-section"><section class="slide"><h1>slide 2</h1>
+<p>content of slide 2</p></section></section></div>
     </div>
     <script>/*!
  * reveal.js
@@ -8015,6 +8066,11 @@ Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
 </script>
     <script>
       Reveal.initialize();
+      Reveal.configure({
+        slideNumber: true,
+        hash: true,
+        transitionSpeed: "fast"
+      });
     </script>
   
 

@@ -2,6 +2,7 @@ const fs = require("fs");
 
 const unified = require("unified");
 const remarkParse = require("remark-parse");
+const { remarkInclude } = require("@karuga/remark-include");
 const remarkRehype = require("remark-rehype");
 const rehypeRaw = require("rehype-raw");
 const rehypeHighlight = require("rehype-highlight");
@@ -18,7 +19,7 @@ unified()
   .use(remarkParse)
   .use(remarkRehype, { allowDangerousHTML: true })
   .use(rehypeRaw)
-  .use(slides, { format: "revealjs" })
+  .use(slides, { slideSeparators: ["hr"] })
   .use(rehypeInline)
   .use(rehypeStringify, { closeSelfClosing: true })
   .process(demoInHrSep)
@@ -31,7 +32,6 @@ unified()
   .use(remarkRehype, { allowDangerousHTML: true })
   .use(rehypeRaw)
   .use(slides, {
-    format: "revealjs",
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"]
   })
@@ -48,7 +48,9 @@ unified()
   .use(rehypeRaw)
   .use(rehypeHighlight)
   .use(slides, {
-    format: "revealjs_karuga",
+    // full path from other packages:
+    // node_modules/@karuga/rehype-slides/templates/reveal_compact.html
+    templateUrl: "templates/reveal_compact.html",
     sectionSeparators: ["h1"],
     slideSeparators: ["h2"]
   })

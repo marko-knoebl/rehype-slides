@@ -9,13 +9,14 @@ const fs = require("fs");
 
 const unified = require("unified");
 const remarkParse = require("remark-parse");
+const { remarkInclude } = require("@karuga/remark-include");
 const remarkRehype = require("remark-rehype");
 const rehypeRaw = require("rehype-raw");
 const rehypeHighlight = require("rehype-highlight");
 const rehypeInline = require("rehype-inline");
 const rehypeStringify = require("rehype-stringify");
 
-const slides = require("@karuga/slides");
+const rehypeSlides = require("@karuga/rehype-slides");
 
 const input = `
 # slide 1
@@ -27,18 +28,21 @@ content of slide 1
 content of slide 2
 `;
 
-const pipeline = unified()
+const processor = unified()
   .use(remarkParse) // parse markdown string
+  .use(remarkInclude) // process any @include directives
   .use(remarkRehype, { allowDangerousHTML: true }) // convert to HTML
   .use(rehypeRaw) // parse again to get inner HTML elements
   // convert to a reveal.js presentation (slides are delimited by headings)
-  .use(slides, "headings_compact")
+  .use(rehypeSlides, { preset: "headings_compact" })
   .use(rehypeHighlight) // highlight code blocks
-  .use(rehypeInline) // bundle into one file
+  .use(rehypeInline) // bundle assets (images)
   .use(rehypeStringify);
 
-const htmlString = pipeline.processSync(input).toString();
-fs.writeFileSync("slides.html", htmlString);
+// remarkInclude is async, so processSync cannot be used here
+processor.process(input).then(result => {
+  fs.writeFileSync("demo/demo_main.html", result.toString());
+});
 ```
 
 (see file `demo/demo_main.js`)
@@ -71,16 +75,16 @@ unified().use(slides, { preset: "standard_compact" });
 unified().use(slides, { preset: "headings" });
 unified().use(slides, { preset: "headings_compact" });
 
-// individual config
+// individual config (same as preset: "headings_compact")
 unified().use(slides, {
   sectionSeparators: ["h1"],
   slideSeparators: ["h2"],
-  templateUrl: "./mytemplate.html"
+  templateUrl: "node_modules/@karuga/rehype-slides/templates/reveal_compact.html"
 });
 ```
 
-- `slideSeparators`: array of HTML elements that separate slides; e.g.: `["h2", "hr"]`, default: `[]`
+- `slideSeparators`: array of HTML elements that separate slides; e.g.: `["h2", "hr"]`, default: `["hr"]`
 - `sectionSeparators`: array of HTML elements that separate sections; e.g.: `["h1"]`, default: `[]`
-- `templateUrl`: url of template to use
+- `templateUrl`: url of template to use, default: `node_modules/@karuga/rehype-slides/templates/reveal.html`
 - `contentOnly`: whether to form a complete HTML document
 - `preset`: sets multiple options at once
