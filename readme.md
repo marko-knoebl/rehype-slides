@@ -31,7 +31,7 @@ content of slide 2
 const processor = unified()
   .use(remarkParse) // parse markdown string
   .use(remarkInclude) // process any @include directives
-  .use(remarkRehype, { allowDangerousHTML: true }) // convert to HTML
+  .use(remarkRehype, { allowDangerousHtml: true }) // convert to HTML
   .use(rehypeRaw) // parse again to get inner HTML elements
   // convert to a reveal.js presentation (slides are delimited by headings)
   .use(rehypeSlides, { preset: "headings_compact" })
