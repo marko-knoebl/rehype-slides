@@ -15,7 +15,7 @@ const fs = require("fs");
 
 const unified = require("unified");
 const remarkParse = require("remark-parse");
-const { remarkInclude } = require("@karuga/remark-include");
+const remarkInclude = require("@karuga/remark-include");
 const remarkRehype = require("remark-rehype");
 const rehypeRaw = require("rehype-raw");
 const rehypeHighlight = require("rehype-highlight");
