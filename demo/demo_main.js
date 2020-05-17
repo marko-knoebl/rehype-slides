@@ -35,6 +35,5 @@ const processor = unified()
   .use(rehypeInline) // bundle assets (images)
   .use(rehypeStringify);
 
-processor.process(input).then(result => {
-  fs.writeFileSync("demo/demo_main.html", result.toString());
-});
+const result = processor.processSync(input).toString();
+fs.writeFileSync("demo/demo_main.html", result);

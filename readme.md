@@ -45,10 +45,8 @@ const processor = unified()
   .use(rehypeInline) // bundle assets (images)
   .use(rehypeStringify);
 
-// remarkInclude is async, so processSync cannot be used here
-processor.process(input).then(result => {
-  fs.writeFileSync("demo/demo_main.html", result.toString());
-});
+const result = processor.processSync(input).toString();
+fs.writeFileSync("demo/demo_main.html", result);
 ```
 
 (see file `demo/demo_main.js`)
@@ -69,28 +67,30 @@ At the moment the main format that is supported is [reveal.js](https://github.co
 
 ## Configuration options
 
-examples:
+default / standard settings:
 
 ```js
-// default settings
-unified().use(slides);
+  .use(rehypeSlides);
+```
 
-// presets
-unified().use(slides, { preset: "standard" });
-unified().use(slides, { preset: "standard_compact" });
-unified().use(slides, { preset: "headings" });
-unified().use(slides, { preset: "headings_compact" });
+preset:
 
-// individual config (same as preset: "headings_compact")
-unified().use(slides, {
-  sectionSeparators: ["h1"],
-  slideSeparators: ["h2"],
-  templateUrl: "node_modules/@karuga/rehype-slides/templates/reveal_compact.html"
-});
+```js
+  .use(rehypeSlides, { preset: "headings_compact" });
+```
+
+individual config (same as preset: "headings_compact"):
+
+```js
+  .use(rehypeSlides, {
+    sectionSeparators: ["h1"],
+    slideSeparators: ["h2"],
+    templateUrl: "node_modules/@karuga/rehype-slides/templates/reveal_compact.html"
+  });
 ```
 
 - `slideSeparators`: array of HTML elements that separate slides; e.g.: `["h2", "hr"]`, default: `["hr"]`
 - `sectionSeparators`: array of HTML elements that separate sections; e.g.: `["h1"]`, default: `[]`
 - `templateUrl`: url of template to use, default: `node_modules/@karuga/rehype-slides/templates/reveal.html`
 - `contentOnly`: whether to form a complete HTML document
-- `preset`: sets multiple options at once
+- `preset`: sets multiple options at once (can be one of `standard`, `standard_compact`, `headings`, `headings_compact`)

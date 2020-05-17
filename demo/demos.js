@@ -58,7 +58,7 @@ unified()
   .process(demoInPythonBeginner)
   .then(content => {
     fs.writeFileSync(
-      "demo/demo_out_python_beginner_reveal_karuga.html",
+      "demo/demo_out_python_beginner_reveal_compact.html",
       content.toString()
     );
   });
