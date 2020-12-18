@@ -11,7 +11,6 @@
   "dependencies": {
     "@karuga/reveal-theme-karuga": "^0.3.0",
     "hast-util-select": "^3.0.1",
-    "highlight.js": "^9.18.1",
     "rehype-parse": "^6.0.2",
     "reveal.js": "^3.8.0",
     "unified": "^9.0.0"
